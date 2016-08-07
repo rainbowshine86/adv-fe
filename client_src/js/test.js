@@ -8,7 +8,7 @@ $(document).ready(function() {
     var postsTableTemplate = Handlebars.compile(postsTableTemplateRaw);
 
     Handlebars.registerHelper('json', function (context) {
-        return "<pre>" + JSON.stringify(context, null, 1) + "</pre>";
+        return "<pre>" + JSON.stringify(context, null, 2) + "</pre>";
     });
 
     Handlebars.registerHelper('table', function (context) {
