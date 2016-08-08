@@ -2,9 +2,10 @@
 	border-collapse: collapse;
 	border:1px solid #ccc;
 }
-.posts-table__cell{
+.posts-table__cell_odd,
+.posts-table__cell_even{
 	padding: 20px;
 }
-.posts-table__cell._odd{
+.posts-table__cell_odd{
 	background-color: #ccc;
 }

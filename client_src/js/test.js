@@ -11,14 +11,14 @@ $(document).ready(function() {
         return "<pre>" + JSON.stringify(context, null, 2) + "</pre>";
     });
 
-    Handlebars.registerHelper('table', function (context) {
+    Handlebars.registerHelper('table', function (context, options) {
         var output = "<table class='posts-table__table'>";
         var cssClass = "";
         var classNameOdd = "_odd";
         var classNameEven = "_even";
         for(var i=0, j=context.length; i<j; i++) {
             ((i + 1) % 2 == 0) ? cssClass = classNameEven : cssClass = classNameOdd;
-            output = output + "<tr><td class='posts-table__cell " + cssClass + "'>" + context[i].description + "</td></tr>";
+            output = output + "<tr><td class='posts-table__cell" + cssClass + "'>" + options.fn({description: context[i].description}) + "</td></tr>";
         }
         return output + "</table>";
     });
