@@ -1,0 +1,10 @@
+.posts-table__table{
+	border-collapse: collapse;
+	border:1px solid #ccc;
+}
+.posts-table__cell{
+	padding: 20px;
+}
+.posts-table__cell_odd{
+	background-color: #ccc;
+}
