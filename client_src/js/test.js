@@ -14,11 +14,11 @@ $(document).ready(function() {
     Handlebars.registerHelper('table', function (context, options) {
         var output = "<table class='posts-table__table'>";
         var cssClass = "";
-        var classNameOdd = "_odd";
-        var classNameEven = "_even";
+        var classNameOdd = "posts-table__cell_odd";
+        var classNameEven = "posts-table__cell_even";
         for(var i=0, j=context.length; i<j; i++) {
             ((i + 1) % 2 == 0) ? cssClass = classNameEven : cssClass = classNameOdd;
-            output = output + "<tr><td class='posts-table__cell" + cssClass + "'>" + options.fn({description: context[i].description}) + "</td></tr>";
+            output = output + "<tr><td class='posts-table__cell " + cssClass + "'>" + options.fn({description: context[i].description}) + "</td></tr>";
         }
         return output + "</table>";
     });
