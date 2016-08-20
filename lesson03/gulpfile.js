@@ -20,6 +20,7 @@ var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var pump = require('pump');
 var autoprefixer = require('gulp-autoprefixer');
+var minimatch = require('minimatch');
 
 gulp.task('default', ['libs', 'build']);
 gulp.task('build', ['css', 'js', 'images', 'html']);
@@ -31,18 +32,18 @@ gulp.task('bower', function () {
 
 gulp.task('css', function () {
     return gulp.src('styles/**/*.less')
+        .pipe(gulpif(!argv.prod, sourcemaps.init()))
         .pipe(concat('styles.css'))
         .pipe(less())
         .pipe(autoprefixer())
         .pipe(cssnano())
-        .pipe(gulpif(!argv.prod, sourcemaps.init()))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(destDir + '/static'))
         .pipe(livereload());
 });
 
 gulp.task('html', function () {
-    return gulp.src(['**/*.html','!libs','!node_modules'])
+    return gulp.src(['**/*.html','!{node_modules,node_modules/**}','!{libs,libs/**}','!{bin,bin/**}'])
         .pipe(gulpif(argv.prod, htmlmin()))
         .pipe(gulp.dest(destDir))
         .pipe(livereload());
@@ -51,9 +52,10 @@ gulp.task('html', function () {
 gulp.task('js', function (cb) {
     pump([
         gulp.src('js/**/*.js'),
+        gulpif(!argv.prod, sourcemaps.init()),
         concat('script.js'),
         uglify(),
-        gulpif(!argv.prod, sourcemaps.init()),
+        sourcemaps.write(),
         gulp.dest(destDir),
         livereload()
         ],
@@ -62,12 +64,12 @@ gulp.task('js', function (cb) {
 });
 
 gulp.task('libs', function () {
-    return gulp.src('libs/**/*.min.js')
+    return gulp.src(['libs/**/*.min.js'])
         .pipe(gulp.dest(destDir + '/libs'));
 });
 
 gulp.task('images', function(){
-    return gulp.src(['**/*.{png,jpg,svg}','!node_modules','!libs'])
+    return gulp.src(['**/*.{png,jpg,svg}','!{node_modules,node_modules/**}','!{libs,libs/**}','!{bin,bin/**}'])
        .pipe(gulp.dest(destDir));
 });
 
@@ -82,10 +84,10 @@ gulp.task( 'clean', function (cb) {
 
 gulp.task( 'watch', function () {
     livereload.listen();
-    gulp.watch('**/*.@{png|jpg|svg}', ['images']);
-    gulp.watch('**/*.html', ['html']);
-    gulp.watch('**/*.js', ['js']);
-    gulp.watch('**/*.less', ['css'] );
+    gulp.watch(['**/*.@{png|jpg|svg}','!{node_modules,node_modules/**}','!{libs,libs/**}','!{bin,bin/**}'], ['images']);
+    gulp.watch(['**/*.html','!{node_modules,node_modules/**}','!{libs,libs/**}','!{bin,bin/**}'], ['html']);
+    gulp.watch(['**/*.js','!{node_modules,node_modules/**}','!{libs,libs/**}','!{bin,bin/**}'], ['js']);
+    gulp.watch(['**/*.less','!{node_modules,node_modules/**}','!{libs,libs/**}','!{bin,bin/**}'], ['css'] );
 } );
 
 
