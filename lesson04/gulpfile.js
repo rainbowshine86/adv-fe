@@ -45,7 +45,7 @@ gulp.task('browserify', function () {
 } );
 
 gulp.task('copy-src', function () {
-    return gulp.src(CLIENT_DIR + '/**')
+    return gulp.src([CLIENT_DIR + '/**/*.*','!' + CLIENT_DIR + '/components/**','!' + CLIENT_DIR + '/containers/**'])
         .pipe(gulp.dest(DEST_DIR));
 });
 
