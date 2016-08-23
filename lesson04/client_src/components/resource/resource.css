@@ -1,0 +1,14 @@
+.resource{
+	overflow: hidden;
+	margin: 0 0 5px;
+}
+.resource__name{
+	float: left;
+}
+.resource__count{
+	float: left;
+	margin: 0;
+}
+.resource__count:before{
+	content: ": ";
+}
